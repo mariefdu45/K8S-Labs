@@ -1,0 +1,36 @@
+# Création d'un namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns-prod
+---
+# Création d'un déploiement
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mondeploy
+  namespace: ns-prod
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: frontend
+      env: dev
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  minReadySeconds: 2
+  template:
+    metadata:
+      labels:
+        app: frontend
+        env: dev
+      annotations:
+        kubernetes.io/change-cause: “Mise à jour à la version 1.17”
+    spec:
+      containers:
+      - name: monnginx
+        image: nginx:1.17
+        imagePullPolicy: Always

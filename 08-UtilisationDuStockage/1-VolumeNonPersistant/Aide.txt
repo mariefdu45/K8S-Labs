@@ -1,0 +1,13 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Un cluster K8S.
+
+Adaptation minimale des manifests :
+Aucun.
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+1-volume-sanspersistance.yaml créé un pod de 3 containers qui partagent un volume non persitant

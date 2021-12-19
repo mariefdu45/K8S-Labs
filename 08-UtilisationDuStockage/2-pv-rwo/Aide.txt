@@ -1,0 +1,18 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Le cluster K8S doit être configuré avec le CSI VSphere.
+Le cluster nécessite un service de Load Balancer. Dans le cas contraire, le fichier yaml doit être modifié pour un autre type de service.
+
+Adaptation minimale des manifests :
+Sto-2-sc.yaml doit spécifié le nom de la VM Storage Policy sous jacente configurée sur le cluster VSphere
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+rwo-1-ns.yaml créé un namespace
+rwo-2-sc.yaml créé une storage class en utilisant la VM Storage Policy sous jacente sur VSphere
+rwo-3-pvc.yaml créé un pvc dans la storage class
+rwo-4-pod.yaml créé un pod qui utilise le pvc
+rwo-5-svc.yaml créé un service permettant l'acces au pod

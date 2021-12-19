@@ -1,0 +1,22 @@
+# Création d'un replicaset
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: monrs
+  namespace: ns-prod
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: frontend
+      env: dev
+  template:
+    metadata:
+      labels:
+        app: frontend
+        env: dev
+    spec:
+      containers:
+      - name: monnginx
+        image: nginx:latest
+

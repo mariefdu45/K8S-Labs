@@ -1,0 +1,16 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Le cluster nécessite un service de Load Balancer. Dans le cas contraire, le fichier yaml hpa-1-deploy.yaml doit être modifié dans sa partie Service pour un autre type d'exposition.
+Le déploiement nécessite une image disponible sur dockerhub mariedu45/php-cpu-use:1.0.0 ou réalisable avec le contenu de CreationImage
+
+Adaptation minimale des manifests :
+Sto-2-sc.yaml doit spécifié le nom de la VM Storage Policy sous jacente configurée sur le cluster VSphere
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+hpa-1-deploy.yaml créé un namespace, un config map, un déploiement constitué d'un container ngix et un autre serveur php. Il créé enfin un service de type LB
+hpa-2-hpa.yaml créé un Horizontal Pod Autoscaler (HPA)
+

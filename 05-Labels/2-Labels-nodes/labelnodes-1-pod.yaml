@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: monpod
+spec:
+  containers:
+    - image: alpine:latest
+    name: monalpine
+    command: ["/bin/sleep", "600"]
+  nodeSelector:
+    nodename: <nom d’un worker>
+

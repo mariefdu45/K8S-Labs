@@ -1,0 +1,13 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Un cluster K8S 
+
+Adaptation minimale des manifests :
+Le label correspondant au worker doit être spécificié dans le manifest
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+labelnodes-1-pod.yaml créé un pod sur un node spécifique 

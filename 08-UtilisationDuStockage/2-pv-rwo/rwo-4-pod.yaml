@@ -1,0 +1,30 @@
+# Création d'un pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: monsiteweb
+  annotations:
+    backup.velero.io/backup-volumes: "mesdatas"
+  namespace: ns-prod
+  labels:
+    app: frontend
+spec:
+  volumes:
+  - name: mesdatas
+    persistentVolumeClaim:
+      claimName: nginx-rwo-pvc
+  containers:
+  - image: nginx
+    name: monnginx
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: mesdatas
+  - image: ubuntu
+    name: ubuntu
+    args:
+      - /bin/sh
+      - -c
+      - sleep 6000
+    volumeMounts:
+    - mountPath: /mesdatas
+      name: mesdatas

@@ -1,0 +1,31 @@
+# Création d'un pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: monpod
+  namespace: ns-prod
+spec:
+  containers:
+  - name: monnginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: volumedupod
+  - name: monfournisseur
+    image: alpine
+    command: ['sh', '-c', 'echo "Bonjour de Marie" > /mafourniture/index.html']
+    volumeMounts:
+    - mountPath: /mafourniture
+      name: volumedupod
+  - name: monobservateur
+    image: ubuntu
+    command: ['sleep', '600']
+    volumeMounts:
+    - mountPath: /monresultat
+      name: volumedupod
+  volumes:
+   - name: volumedupod
+     emptyDir: {}
+

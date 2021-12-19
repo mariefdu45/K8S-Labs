@@ -1,0 +1,15 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+En plus du cluster K8S, un serveur NFS disposant d'un partage est nécessaire à cet exercice
+
+Adaptation minimale des manifests :
+1-pv-nfs.yaml doit être renseigné avec l'IP ou le nom DNS du serveur NFS ainsi que le nom du partage.
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+rwx-1-pv-nfs.yaml créé un volume persistant (pv) de type RWX sur un partage NFS
+rwx-2-pvc.yaml créé un pvc en utilsant le pv précédemment créé
+rwx-3-pods crée 2 pods accédant de manière concurrente au pvc

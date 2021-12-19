@@ -1,0 +1,13 @@
+# Création d'une storage class
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: sc-csivsphere
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: csi.vsphere.vmware.com
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+parameters:
+  svStorageClass: "<nom de la VM Storage Policy sous jacente"
+

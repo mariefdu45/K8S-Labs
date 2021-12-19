@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvnfsrwx
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs-manual
+  nfs:
+    path: <nom du répertoire nfs paragé>
+    server: <ip ou nom DNS du serveur NFS>
+

@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-fourniture
+  namespace: ns-prod
+spec:
+  template:
+    metadata:
+      name: pod-fourniture
+    spec:
+      containers:
+        - image: alpine
+          name: container-fourniture
+          volumeMounts:
+          - mountPath: /mafourniture
+            name: volume-fourniture
+          command: ['sh', '-c', 'echo "Bonjour de Marie" > /mafourniture/index.html']
+      restartPolicy: Never
+      volumes:
+      - name: volume-fourniture
+        persistentVolumeClaim:
+          claimName: static-pvc-nfs
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-frontend
+  namespace: ns-prod
+spec:
+  volumes:
+  - name: volume-frontend
+    persistentVolumeClaim:
+      claimName: static-pvc-nfs
+  containers:
+  - image: nginx
+    name: container-frontend
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: volume-frontend
+

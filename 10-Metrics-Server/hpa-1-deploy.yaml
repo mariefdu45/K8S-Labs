@@ -1,0 +1,117 @@
+# Création d’un namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns-web
+---
+# Création d’un configmap qui va servir à contenir la configuration du serveur web nginx
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+  namespace: ns-web
+data:
+  nginx.conf: |
+    events {
+
+    }
+
+    http {
+      server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # Set nginx to serve files from the shared volume!
+        root /var/www/html;
+        server_name _;
+
+        location / {
+          try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+          include fastcgi_params;
+          fastcgi_param REQUEST_METHOD $request_method;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+          fastcgi_pass 127.0.0.1:9000;
+        }
+      }
+    }
+---
+# Création d’un déploiement fait de 2 containers, 1 pour nginx et 1 pour le serveur applicatif en php
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: utilisation-cpu
+  namespace: ns-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utilisation-cpu
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  minReadySeconds: 2
+  template:
+    metadata:
+      labels:
+        app: utilisation-cpu
+    spec:
+      volumes:
+        # Creation d'un volume partage par les 2 containers du pod
+        - name: volume-partage
+          emptyDir: {}
+
+        # Ajout du config map nginx-config pour configurer le serveur web
+        - name: volume-nginx-config
+          configMap:
+            name: nginx-config
+
+      containers:
+        # Application PHP-FPM (Boucle)
+        - image: mariedu45/php-cpu-use:1.0.0
+          imagePullPolicy: "Always"
+          name: application
+          volumeMounts:
+            - name: volume-partage
+              mountPath: /var/www/html
+          # Copie du contenu de /app (le code php dans l'image) vers le volume partagé /var/www/html
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp -r /app/. /var/www/html"]
+
+        # Le container nginx qui utilise le code php issu du répertoire /code dans l'image customisée php et la configuration nginx issue du configmap.
+        - image: nginx:1.7.9
+          name: nginx
+          volumeMounts:
+            - name: volume-partage
+              mountPath: /var/www/html
+            - name: volume-nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          resources:
+            requests:
+              memory: 15Mi
+              cpu: 50m
+            limits:
+              memory: 2Gi
+              cpu: 100m
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-utilisation-memoire
+  namespace: ns-web
+spec:
+  type: LoadBalancer
+  selector:
+    app: utilisation-cpu
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

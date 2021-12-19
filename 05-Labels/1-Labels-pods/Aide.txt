@@ -1,0 +1,13 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Un cluster K8S 
+
+Adaptation minimale des manifests :
+Aucune
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+labelpods-1.yaml créé deux pods dont 1 avec des labels 

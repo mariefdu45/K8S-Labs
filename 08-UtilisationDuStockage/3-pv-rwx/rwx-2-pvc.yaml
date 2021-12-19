@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: static-pvc-nfs
+  namespace: ns-prod
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage:4Gi
+  #selector:
+  #  matchLabels:
+  #    fcd-id: c5ca0f4a-49ba-467f-ac57-1ec5269744c3
+  storageClassName: "nfs-manual"

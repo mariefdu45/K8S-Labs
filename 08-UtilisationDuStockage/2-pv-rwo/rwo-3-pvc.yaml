@@ -1,0 +1,14 @@
+# Création d'un pvc
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-rwo-pvc
+  namespace: ns-prod
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: sc-csivsphere
+  resources:
+    requests:
+      storage: 2Gi
+
