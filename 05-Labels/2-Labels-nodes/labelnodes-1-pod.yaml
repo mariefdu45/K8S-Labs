@@ -1,3 +1,8 @@
+# Apprentissage Kubernetes - Marie F.
+# Utilisation de labels sur les nodes - v1.0.0
+#############################################
+#
+# Création d'un pod sur un node sélectionné
 apiVersion: v1
 kind: Pod
 metadata:

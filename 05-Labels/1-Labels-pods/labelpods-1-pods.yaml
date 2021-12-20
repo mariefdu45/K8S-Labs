@@ -1,3 +1,8 @@
+# Apprentissage Kubernetes - Marie F.
+# Utilisation de labels sur les pods - v1.0.0
+#############################################
+#
+# Création d'un premier pod sans label
 apiVersion: v1
 kind: Pod
 metadata:
@@ -13,6 +18,7 @@ spec:
       - -c
       - sleep 600
 ---
+# Création d'un second pod avec label
 apiVersion: v1
 kind: Pod
 metadata:

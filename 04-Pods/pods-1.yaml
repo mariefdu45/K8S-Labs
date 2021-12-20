@@ -1,3 +1,8 @@
+# Apprentissage Kubernetes - Marie F.
+# Création d'un pod- v1.0.0
+#############################################
+#
+# Création d'un pod constitué de 2 containers 
 apiVersion: v1
 kind: Pod
 metadata:
