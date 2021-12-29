@@ -1,0 +1,15 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Le cluster K8S doit être configuré avec le CSI VSphere.
+
+Adaptation minimale des manifests :
+svc-1-deploy.yaml doit spécifier le nom de la VM Storage Policy sous jacente configurée sur le cluster VSphere
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+svc-1-deploy.yaml créé une storage class, un namespace, un pvc et enfin un déploiement.
+svc-2-clusterip.yaml créé un service de type clusterIP par défaut, modifiable en node port ou en LoadBalancer.
+
