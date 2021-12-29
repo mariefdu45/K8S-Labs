@@ -1,0 +1,16 @@
+Notes à l'attention des utilisateurs.
+
+Pré-requis :
+Le cluster K8S doit être configuré avec le CSI VSphere.
+Un serveur NFS est disponible pour créé un pv de type RWX.
+Un Load Balancer est disponible dans le cluster.
+
+Adaptation minimale des manifests :
+recette-4a-pv-pvc.yaml doit spécifier le serveur NFS et son partage
+
+Utilisation :
+kubectl apply -f .
+
+Rôle des manifests :
+recette-4a-pv-pvc.yaml créé un pv de type RWX sur un serveur NFS, un namespace et un pvc
+recette-4b-deploy-svc.yaml créé un déploiement de 6 replicas de pods nginx utilisant le pv RWX puis l'expose dans un service de type LB
